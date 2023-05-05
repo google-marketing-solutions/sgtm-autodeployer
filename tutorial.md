@@ -39,9 +39,8 @@ You can find a summary of each value below.
 Variable                         | Description
 -------------------------------: | :-------------------------------------------------------- |
 CONTAINER_CONFIG                 | Add the configuration string for the server container.
-USE_MULTIREGION                  | `"YES"` if you need multiregion support.
 REGIONS                          | Specify the regions to deploy sGTM, separated by commas.
-USE_CUSTOM_DOMAIN                | `"YES"` if you plan to use custom domains.
+DOMAIN_NAME                      | Define the custom domain you want to use. This is required when specifying multiple regions, otherwise it is optional.
 USE_1P_SCRIPT_SERVING            | `"YES"` if you want to use First Party Script Serving.
 ENABLE_LOGGING                   | `"YES"` if you want to enable logging.
 
@@ -58,10 +57,10 @@ and then run it from the shell by pressing Enter/Return.
 
 If you want to preview all the commands that will be executed before
 doing any modifications to the system, you can run the script
-in *dry run* mode using this command:
+in *test* mode (without doing any modifications) using this command:
 
 ```bash
-bash deploy.sh -d
+bash deploy.sh -t
 ```
 
 ### Deployment

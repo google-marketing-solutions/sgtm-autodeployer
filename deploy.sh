@@ -57,7 +57,6 @@ function cli_errors() {
 }
 
 function enable_apis() {
-  # Enable required APIs
   echo -e "\n--> Enabling required APIs..."
   gcloud_ext services enable \
     compute.googleapis.com \
@@ -85,9 +84,7 @@ function delete_load_balancer() {
 }
 
 function create_address() {
-  # Create a load balancer
   echo -e "\n--> Creating an IP address..."
-  # projects/sgtm-by-gps/global/addresses/service-ip
   gcloud_ext compute addresses create --global ${SERVICE_IP}
 }
 
@@ -193,7 +190,6 @@ function delete_cloud_run() {
 
   for REGION in ${REGIONS_LIST[@]}
   do
-    # Deploy the sGTM application
     echo -e "\n--> Deleting the sGTM application in ${REGION}..."
     gcloud_ext run services delete "${SERVICE_NAME}" ${FORCE} --region ${REGION}
   done
@@ -225,7 +221,6 @@ function delete_network_endpoint_groups() {
 }
 
 function main() {
-    # Process optional arugments.
     while getopts 'tp:ufh' arg; do
         case "${arg}" in
             t) OPT_DEBUG="true";;
