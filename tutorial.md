@@ -13,148 +13,60 @@ This deployment guide helps you:
 To prepare, you need to select the Google Cloud Project to deploy the tagging
 server in.
 
-To deploy the tagging server on Cloud Run, you need to use a script that uses
-the Google Cloud SDK which is available in your Cloud Shell environment.
-
 <walkthrough-project-setup></walkthrough-project-setup>
-
-Click the Cloud Shell icon below to copy the command to your shell. Paste the
-command into your shell and run it by pressing Enter or Return.
-
-The tool will pick up the project name from the environment variable.
-
-```bash
-export GOOGLE_CLOUD_PROJECT=<walkthrough-project-id/>
-```
 
 ## Customize the environment
 
 Provide some information about your environment to deploy a tagging server that
 meets your needs.
 
-Open <walkthrough-editor-open-file filePath="./config.conf">
-config.conf</walkthrough-editor-open-file>
+Open <walkthrough-editor-open-file filePath="./terraform.tfvars">
+terraform.tfvars</walkthrough-editor-open-file>
 
-Each variable modifies a specific behavior in the deployment script.
+Provide the correct value for each variable:
 
-Click next to start the review process for each of them.
+-   <walkthrough-editor-select-regex filePath="./terraform.tfvars" regex='project_id = .*'>**project_id**</walkthrough-editor-select-regex>:
+    Copy and paste `<walkthrough-project-id/>` as the project id.
+-   <walkthrough-editor-select-regex filePath="./terraform.tfvars" regex='container_config = .*'>**container_config**</walkthrough-editor-select-regex>:
+    In Tag Manager, navigate to your server container workspace and click on the
+    container ID at the top-right of the page. Click on **Manually provision**
+    tagging server to find the **container config** value.
+-   <walkthrough-editor-select-regex filePath="./terraform.tfvars" regex='domain_names = .*'>**domain_names**</walkthrough-editor-select-regex>:
+    One or more domain names to be use with the tagging server, using the list
+    syntax. For example: `["tagging.example.org", "tagging.example.com"]`.
+-   <walkthrough-editor-select-regex filePath="./terraform.tfvars" regex='regions = .*'>**regions**</walkthrough-editor-select-regex>:
+    One or more regions where the tagging server will be deployed, using the
+    list syntax. You can find the list
+    [here](https://cloud.google.com/run/docs/locations).
 
-## Container config string
+## Deploy the tagging server
 
-The first item you need to provide is the the configuration string for the
-server container. In Tag Manager, navigate to your server container workspace
-and click on the container ID at the top-right of the page. Click on **Manually
-provision** tagging server to find the **container config** value.
+### Prepare
 
-Then, copy this value into the
-<walkthrough-editor-select-regex filePath="./config.conf" regex='CONTAINER_CONFIG=".*"'>
-`CONTAINER_CONFIG`</walkthrough-editor-select-regex> variable.
-
-Example:
-
-```js
-CONTAINER_CONFIG="WW91IGFyZSB0b28gc21hcnQgZm9yIHRoZSB0dXRvcmlhbCwgZ28gZm9yIHRoZSBzY3JpcHQhIDsp"
-```
-
-## Deployment regions
-
-The tagging server can be deployed on any region supporting Cloud Run. For this
-deployment, you can specify one or more regions where the tagging server will be
-deployed. You can find the list
-[here](https://cloud.google.com/run/docs/locations).
-
-To define the regions to be used, please add them separated by commas (without
-spaces) in the
-<walkthrough-editor-select-regex filePath="./config.conf" regex='REGIONS=".*"'>
-`REGIONS`</walkthrough-editor-select-regex> variable.
-
-Example:
-
-```js
-REGIONS="europe-west1,europe-west2"
-```
-
-## Domain name
-
-Next one is the domain name you want to use with the tagging server. Please
-specify the domain name in the
-<walkthrough-editor-select-regex filePath="./config.conf" regex='DOMAIN_NAME=".*"'>
-`DOMAIN_NAME`</walkthrough-editor-select-regex> variable.
-
-Example:
-
-```js
-DOMAIN_NAME="metrics.example.com"
-```
-
-## Set maximum number of instances
-
-The `MAX_INSTANCES` field establishes a maximum boundary of how many Cloud Run
-instances can be created automatically. Cloud Run only scales up to the maximum
-number if required.
-
-Autoscaling 2-10 servers will handle 35-350 requests per second, though the
-performance will vary with the number of tags, and what those tags do. If you
-expect to handle more than 350 per second at a given time, we recommend
-increasing the number above 10.
-
-Specify the maximum number of instances each Cloud Run deployment can scale to
-in the
-<walkthrough-editor-select-regex filePath="./config.conf" regex='MAX_INSTANCES=".*"'>
-`MAX_INSTANCES`</walkthrough-editor-select-regex> variable.
-
-Example:
-
-```js
-MAX_INSTANCES=10
-```
-
-## Optional: Set the logging level
-
-By default, logging levels are not modified. If your tagging server handles a
-lot of requests per month (e.g. greater than 1 million), those log messages may
-incur significant logging charges.
-
-There are two options available to alleviate this issue:
-
--   `DISABLE`: Disable the logging of requests.
--   `ERROR_ONLY` Log only ERROR level messages.
-
-Set the appropriate value in the
-<walkthrough-editor-select-regex filePath="./config.conf" regex='LOGGING=".*"'>
-`LOGGING`</walkthrough-editor-select-regex> variable.
-
-Example:
-
-```js
-LOGGING="DISABLE"
-```
-
-## Deploy it
-
-The script `deploy.sh` will read the configuration you prepared in the previous
-step and take care of everything needed for deploying the tagging server. You
-can execute the commands by clicking the Cloud Shell icon next to them to copy
-the command to your shell, and then run it from the shell by pressing
-Enter/Return.
-
-### Dry run (optional)
-
-If you want to preview all the commands that will be executed before doing any
-modifications to the system, you can run the script in *test* mode (without
-doing any modifications) using this command:
+Terraform will be used to deploy the tagging server. To initialize the terraform
+environment, click the Cloud Shell icon below to copy the command to your shell.
+Paste the command into your shell and run it by pressing Enter or Return.
 
 ```bash
-bash deploy.sh -d
+terraform init
 ```
 
-### Deployment
-
-You can execute the script by using this command (make sure to follow the output
-in case any errors occur):
+If you have already deployed the tagging server in this project, you need to
+recover the terraform state using the command below, otherwise you can skip this
+step.
 
 ```bash
-bash deploy.sh
+bash recover_state.sh
+```
+
+### Deploy
+
+To start the deployment, use the command below and follow the prompts to confirm
+the operation (you need to enter `yes` when prompted if you agree with the
+changes, otherwise the script will exit).
+
+```bash
+terraform apply
 ```
 
 ## Update DNS records at your domain registrar
@@ -165,7 +77,7 @@ domain to point to your load balancer IP.
 To get the IP you need to use, you can run the following command:
 
 ```bash
-bash deploy.sh -m show_address
+terraform output
 ```
 
 Next, log in to your account at your domain registrar and open the DNS
@@ -200,20 +112,7 @@ When the previous steps are ready, the only part missing is setting up
 region-specific tag behavior for even more control (this is specially important
 if using consent mode).
 
-This configuration requires using custom headers when serving the scripts. As
-this implies a cost per 1M requests, you'll deploy a supplemental backend
-service with the headers configuration, while keeping the original Tag Manager
-backend service without them.
-[Learn how to set up custom request headers](https://developers.google.com/tag-platform/tag-manager/server-side/enable-region-specific-settings#step_1_set_up_the_request_header_).
-
-To deploy the supplemental backend to handle script requests, you need to
-execute the following command:
-
-```sh
-bash deploy.sh -m script_serving
-```
-
-After running the command,
+To enable this feature,
 [set up request headers in GTM](https://developers.google.com/tag-platform/tag-manager/server-side/enable-region-specific-settings).
 
 ## Deployment finished

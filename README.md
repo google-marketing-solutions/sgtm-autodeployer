@@ -17,25 +17,38 @@ Shell and follow a guided tutorial to deploy server-side Tag Manager.
 
 ## Advance usage
 
-If you want to use the script directly without the guided tutorial, you can see
-all the available options by executing the following command:
+If you want to use the tool without the guided tutorial, make sure to edit the
+`terraform.tfvars` file first, and provide all the needed parameters there
+(there are detailed instructions for each variable in the bottom of the file).
+
+To prepare the terraform environment, execute the following command from the
+root folder of this repository:
 
 ```sh
-bash deploy.sh -h
+terraform init
 ```
 
-Before going forward with the execution, make sure to edit the `config.conf`
-file, and provide all the needed parameters there (there are detailed
-instructions above each available variable).
+If you have already deployed the tagging server in the target Google Cloud
+project, recover the terraform state using the command below, otherwise you can
+skip this step.
 
-The script also provides a `dry-run` mode that allows you to verify the commands
-that will be executed without doing any changes to the system.
+```sh
+bash recover_state.sh
+```
+
+To start the deployment, use the command below and follow the prompts to confirm
+the operation (you need to enter `yes` when prompted if you agree with the
+changes, otherwise the script will exit).
+
+```bash
+terraform apply
+```
 
 ## Disclaimers
 
-__This is not an officially supported Google product.__
+**This is not an officially supported Google product.**
 
-_Copyright 2023 Google LLC. This solution, including any related sample code or
+*Copyright 2023 Google LLC. This solution, including any related sample code or
 data, is made available on an “as is,” “as available,” and “with all faults”
 basis, solely for illustrative purposes, and without warranty or representation
 of any kind. This solution is experimental, unsupported and provided solely for
@@ -47,4 +60,4 @@ appropriate rights, consents and permissions to permit Google to use and process
 that data. By using any portion of this solution, you acknowledge, assume and
 accept all risks, known and unknown, associated with its usage, including with
 respect to your deployment of any portion of this solution in your systems, or
-usage in connection with your business, if at all._
+usage in connection with your business, if at all.*
