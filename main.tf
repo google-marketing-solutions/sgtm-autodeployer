@@ -237,7 +237,7 @@ resource "google_logging_project_exclusion" "server-side-tagging-run-server" {
 
 resource "google_logging_project_exclusion" "server-side-tagging-balancer" {
   count       =  var.full_logging_enabled ? 0 : 1
-  name        = "server-side-tagging-run-balancer"
+  name        = "server-side-tagging-balancer"
   description = "Exclude Load Balancing logs below ERROR"
   filter      = "LOG_ID(\"requests\") AND severity<=ERROR"
 }

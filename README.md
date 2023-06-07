@@ -8,6 +8,11 @@ The deployment is based on the
 [Cloud Run setup guide](https://developers.google.com/tag-platform/tag-manager/server-side/cloud-run-setup-guide?provisioning=cli)
 and is meant to simplify the process for new users of server-side tagging.
 
+*Before installing the tool, we strongly recommend you to join the
+[sGTM Autodeployer users group](https://groups.google.com/g/sgtm-autodeployer).
+In there you will be able ask questions and provide feedback about the
+solution.*
+
 ## Quick start
 
 Click the *Open in Cloud Shell* button to open this repository in Google Cloud
