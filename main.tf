@@ -168,7 +168,7 @@ resource "google_compute_url_map" "server-side-tagging-urlmap" {
       service = google_compute_backend_service.server-side-tagging-backend-scripts.id
     }
     path_rule {
-      paths   = ["/gtags/*"]
+      paths   = ["/gtag/*"]
       service = google_compute_backend_service.server-side-tagging-backend-scripts.id
     }
   }
@@ -218,7 +218,7 @@ resource "google_compute_backend_service" "server-side-tagging-backend-main" {
 
 resource "google_compute_backend_service" "server-side-tagging-backend-scripts" {
   name                   = "server-side-tagging-backend-scripts"
-  custom_request_headers = ["X-Gclb-Country: {client_region}", "X-Gclb-Region: {client_region_subdivision}"]
+  custom_request_headers = ["X-Gclb-Country:{client_region}", "X-Gclb-Region:{client_region_subdivision}"]
 
   dynamic "backend" {
     for_each = google_compute_region_network_endpoint_group.server-side-tagging-neg
