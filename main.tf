@@ -117,7 +117,7 @@ resource "google_cloud_run_service" "server-side-tagging" {
     metadata {
       annotations = {
         "autoscaling.knative.dev/maxScale"  = var.max_instances
-        "autoscaling.knative.dev/minScale"  = 1
+        "autoscaling.knative.dev/minScale"  = var.min_instances
         "run.googleapis.com/client-name"    = "terraform"
         "run.googleapis.com/cpu-throttling" = false
       }

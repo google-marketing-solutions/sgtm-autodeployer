@@ -28,6 +28,11 @@ variable "regions" {
   type        = list(string)
   description = "Regions used for the deployment"
 }
+variable "min_instances" {
+  type        = string
+  description = "Minimum number of Cloud Run instances to scale"
+  default = 1
+}
 variable "max_instances" {
   type        = string
   description = "Maximum number of Cloud Run instances to scale"
