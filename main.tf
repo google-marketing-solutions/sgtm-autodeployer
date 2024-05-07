@@ -16,6 +16,10 @@ provider "google" {
   project = var.project_id
 }
 
+provider_meta "google" {
+    module_name = "cloud-solutions/sgtm-autodeployer-deploy-v1.0"
+}
+
 # Enable APIs
 resource "google_project_service" "cloudresourcemanager" {
   disable_on_destroy = false
