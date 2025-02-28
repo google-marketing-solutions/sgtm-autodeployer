@@ -22,32 +22,102 @@ Shell and follow a guided tutorial to deploy server-side Tag Manager.
 
 ## Advance usage
 
-If you want to use the tool without the guided tutorial, make sure to edit the
-`terraform.tfvars` file first, and provide all the needed parameters there
-(there are detailed instructions for each variable in the bottom of the file).
+### Initial Environment Setup
 
-To prepare the terraform environment, execute the following command from the
-root folder of this repository:
+1. If you don't use Cloud Shell, export environment variables and set the default project.
+   Typically, there is a single project to install the solution. If you chose to use multiple projects - use the one
+   designated for the data processing.
 
-```sh
-terraform init
-```
+    ```bash
+    export PROJECT_ID="[your Google Cloud project id]"
+    gcloud config set project $PROJECT_ID
+    ```
 
-If you have already deployed the tagging server in the target Google Cloud
-project, recover the terraform state using the command below, otherwise you can
-skip this step.
+1. Authenticate with additional OAuth 2.0 scopes needed to interact with Google Cloud APIs:
+   ```shell
+   gcloud auth login
+   gcloud auth application-default login --quiet --scopes="openid,https://www.googleapis.com/auth/userinfo.email,https://www.googleapis.com/auth/cloud-platform,https://www.googleapis.com/auth/sqlservice.login,https://www.googleapis.com/auth/accounts.reauth"
+   gcloud auth application-default set-quota-project $PROJECT_ID
+   export GOOGLE_APPLICATION_CREDENTIALS=/Users/<USER_NAME>/.config/gcloud/application_default_credentials.json
+   ```
 
-```sh
-bash recover_state.sh
-```
+    **Note:** You may receive an error message informing the Cloud Resource Manager API has not been used/enabled for your project, similar to the following: 
+    
+    ERROR: (gcloud.auth.application-default.login) User [<ldap>@<company>.com] does not have permission to access projects instance [<gcp_project_ID>:testIamPermissions] (or it may not exist): Cloud Resource Manager API has not been used in project <gcp_project_id> before or it is disabled. Enable it by visiting https://console.developers.google.com/apis/api/cloudresourcemanager.googleapis.com/overview?project=<gcp_project_id> then retry. If you enabled this API recently, wait a few minutes for the action to propagate to our systems and retry.
 
-To start the deployment, use the command below and follow the prompts to confirm
+    On the next step, the Cloud Resource Manager API will be enabled and, then, your credentials will finally work.
+
+1. Review your Terraform version
+
+    Make sure you have installed terraform version is 1.9.7. We recommend you to use [tfenv](https://github.com/tfutils/tfenv) to manage your terraform version.
+   `Tfenv` is a version manager inspired by rbenv, a Ruby programming language version manager.
+
+    To install `tfenv`, run the following commands:
+
+    ```shell
+    # Install via Homebrew or via Arch User Repository (AUR)
+    # Follow instructions on https://github.com/tfutils/tfenv
+
+    # Now, install the recommended terraform version 
+    tfenv install 1.9.7
+    tfenv use 1.9.7
+    terraform --version
+    ```
+
+    **Note:** If you have a Apple Silicon Macbook, you should install terraform by setting the `TFENV_ARCH` environment variable:
+    ```shell
+    TFENV_ARCH=amd64 tfenv install 1.9.7
+    tfenv use 1.9.7
+    terraform --version
+    ```
+    If not properly terraform version for your architecture is installed, `terraform .. init` will fail.
+
+    For instance, the output on MacOS should be like:
+    ```shell
+    Terraform v1.9.7
+    on darwin_amd64
+    ```
+
+1. Create the Terraform variables file by making a copy from the template and set the Terraform variables.
+   If you want to use the tool without the guided tutorial, make sure to edit the
+   `terraform.tfvars` file first, and provide all the needed parameters there
+   (there are detailed instructions for each variable in the bottom of the file).
+
+
+    ```bash
+    cp terraform-sample.tfvars terraform.tfvars
+   ```
+
+   Edit the variables file. If using Vim:
+   ```shell
+    vim terraform.tfvars
+    ```
+
+1. Run Terraform to initialize your environment, and validate if your configurations and variables are set as expected:
+
+    ```bash
+    terraform init
+    terraform plan
+    terraform validate
+    ```
+
+    If you run into errors, review and edit the `terraform.tfvars` file. However, if there are still configuration errors, open a new [github issue](https://github.com/google-marketing-solutions/sgtm-autodeployer/issues/).
+
+    If you have already deployed the tagging server in the target Google Cloud
+    project, recover the terraform state using the command below, otherwise you can
+    skip this step.
+
+    ```bash
+    bash recover_state.sh
+    ```
+
+1. To start the deployment, use the command below and follow the prompts to confirm
 the operation (you need to enter `yes` when prompted if you agree with the
 changes, otherwise the script will exit).
 
-```bash
-terraform apply
-```
+    ```bash
+    terraform apply
+    ```
 
 ## Disclaimers
 
