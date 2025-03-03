@@ -19,5 +19,24 @@ terraform {
       source  = "hashicorp/google"
       version = "~> 4.0"
     }
+
+    google-beta = {
+      source  = "hashicorp/google-beta"
+      version = "~> 4.0"
+    }
   }
+
+  provider_meta "google" {
+    module_name = "cloud-solutions/mas-sgtm-autodeployer-deploy-v1.0"
+  }
+}
+
+provider "google" {
+  project = var.project_id
+  billing_project = var.project_id
+}
+
+provider "google-beta" {
+  project = var.project_id
+  billing_project = var.project_id
 }
