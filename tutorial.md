@@ -20,24 +20,26 @@ server in.
 Provide some information about your environment to deploy a tagging server that
 meets your needs.
 
-Open <walkthrough-editor-open-file filePath="./terraform.tfvars">
-terraform.tfvars</walkthrough-editor-open-file>
+Open <walkthrough-editor-open-file filePath="./terraform-sample.tfvars">
+terraform-sample.tfvars</walkthrough-editor-open-file>
 
 Provide the correct value for each variable:
 
--   <walkthrough-editor-select-regex filePath="./terraform.tfvars" regex='project_id = .*'>**project_id**</walkthrough-editor-select-regex>:
+-   <walkthrough-editor-select-regex filePath="./terraform-sample.tfvars" regex='project_id = .*'>**project_id**</walkthrough-editor-select-regex>:
     Copy and paste `<walkthrough-project-id/>` as the project id.
--   <walkthrough-editor-select-regex filePath="./terraform.tfvars" regex='container_config = .*'>**container_config**</walkthrough-editor-select-regex>:
+-   <walkthrough-editor-select-regex filePath="./terraform-sample.tfvars" regex='container_config = .*'>**container_config**</walkthrough-editor-select-regex>:
     In Tag Manager, navigate to your server container workspace and click on the
     container ID at the top-right of the page. Click on **Manually provision**
     tagging server to find the **container config** value.
--   <walkthrough-editor-select-regex filePath="./terraform.tfvars" regex='domain_names = .*'>**domain_names**</walkthrough-editor-select-regex>:
+-   <walkthrough-editor-select-regex filePath="./terraform-sample.tfvars" regex='domain_names = .*'>**domain_names**</walkthrough-editor-select-regex>:
     One or more domain names to be use with the tagging server, using the list
     syntax. For example: `["tagging.example.org", "tagging.example.com"]`.
--   <walkthrough-editor-select-regex filePath="./terraform.tfvars" regex='regions = .*'>**regions**</walkthrough-editor-select-regex>:
+-   <walkthrough-editor-select-regex filePath="./terraform-sample.tfvars" regex='regions = .*'>**regions**</walkthrough-editor-select-regex>:
     One or more regions where the tagging server will be deployed, using the
     list syntax. You can find the list
     [here](https://cloud.google.com/run/docs/locations).
+
+Finally save it as `terraform.tfvars`.
 
 ## Deploy the tagging server
 
