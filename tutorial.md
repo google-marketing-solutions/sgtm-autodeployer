@@ -21,7 +21,7 @@ Provide some information about your environment to deploy a tagging server that
 meets your needs.
 
 Open <walkthrough-editor-open-file filePath="./terraform.tfvars">
-terraform.tfvars</walkthrough-editor-open-file>
+terraform-sample.tfvars</walkthrough-editor-open-file>
 
 Provide the correct value for each variable:
 
@@ -38,6 +38,8 @@ Provide the correct value for each variable:
     One or more regions where the tagging server will be deployed, using the
     list syntax. You can find the list
     [here](https://cloud.google.com/run/docs/locations).
+
+Finally save it as `terraform.tfvars`.
 
 ## Deploy the tagging server
 
