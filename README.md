@@ -119,6 +119,38 @@ changes, otherwise the script will exit).
     terraform apply
     ```
 
+## Privacy Notice
+
+>[!NOTE]
+>By using this solution you agree for deployment data to be collected automatically at installation time. If you don't want this information to be collected you can refrain from using the solution.
+
+### How is data collected
+
+When you execute the `terraform apply` command within the sGTM Autodeployer, we collect the following anonymous data for usage reporting purposes:
+- Encrypted GCP Project ID: We collect an encrypted version of your Google Cloud Platform (GCP) project ID.
+- Encrypted Organization ID: We collect an encrypted version of your GCP organization ID.
+- Deployment Count: We track each execution of the terraform apply command to count the number of deployments.
+- API URLs being used by terraform resources (i.e. storage.googleapis.com, etc.)
+
+The data we collect is anonymous and encrypted. We do not collect any personally identifiable information (PII).
+We do not collect any usage metric other than when the `terraform apply` command is executed.
+
+### How is data processed
+
+The collected data is only used for reporting purposes.
+We do not use the data for direct customer outreach.
+We do not share data with TVCs, partners, or any external parties.
+We do not copy data elsewhere.
+
+### Purpose of Data Collection
+
+We collect this information for the sole purpose of Usage Reporting: To understand how frequently our solution is being deployed, allowing us to improve and maintain it.
+
+### Overall Information
+
+These guidelines are backed by the [Cloud privacy policy](https://cloud.google.com/terms/cloud-privacy-notice) (see "Why we process data" section) which cloud users consent to.
+
+
 ## Disclaimers
 
 **This is not an officially supported Google product.**
